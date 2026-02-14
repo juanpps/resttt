@@ -5,7 +5,9 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 
-export default function ClientLoginPage() {
+import { Suspense } from 'react';
+
+function LoginContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const redirect = searchParams.get('redirect') || '/';
@@ -39,5 +41,13 @@ export default function ClientLoginPage() {
                 </div>
             </motion.div>
         </div>
+    );
+}
+
+export default function ClientLoginPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-[var(--color-bg)] text-[var(--color-secondary)]">Cargando...</div>}>
+            <LoginContent />
+        </Suspense>
     );
 }
