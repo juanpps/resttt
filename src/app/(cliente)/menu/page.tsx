@@ -27,7 +27,7 @@ function MenuContent() {
         const loadData = async () => {
             try {
                 const [p, c] = await Promise.all([
-                    productosService.listActive(),
+                    productosService.listAvailable(),
                     categoriasService.list()
                 ]);
                 setProducts(p);
@@ -49,6 +49,13 @@ function MenuContent() {
             return matchesCategory && matchesSearch;
         });
     }, [products, activeCategory, searchQuery]);
+
+    const addItem = useCartStore((s) => s.addItem);
+
+    const handleAddToCart = (p: Producto) => {
+        addItem(p);
+        toast.success(`¡${p.nombre} agregado!`);
+    };
 
     const handleCategoryChange = (id: string) => {
         setActiveCategory(id);
@@ -82,8 +89,8 @@ function MenuContent() {
                         <button
                             onClick={() => handleCategoryChange('all')}
                             className={`px-8 py-3 rounded-full font-black text-[10px] uppercase tracking-[0.2em] transition-all shrink-0 border-2 ${activeCategory === 'all'
-                                    ? 'bg-[var(--color-secondary)] text-[var(--color-primary)] border-[var(--color-secondary)] shadow-premium'
-                                    : 'bg-transparent text-[var(--color-secondary)] border-[var(--color-secondary)]/10 hover:border-[var(--color-secondary)]'
+                                ? 'bg-[var(--color-secondary)] text-[var(--color-primary)] border-[var(--color-secondary)] shadow-premium'
+                                : 'bg-transparent text-[var(--color-secondary)] border-[var(--color-secondary)]/10 hover:border-[var(--color-secondary)]'
                                 }`}
                         >
                             Todo
@@ -93,8 +100,8 @@ function MenuContent() {
                                 key={cat.$id}
                                 onClick={() => handleCategoryChange(cat.$id)}
                                 className={`px-8 py-3 rounded-full font-black text-[10px] uppercase tracking-[0.2em] transition-all shrink-0 border-2 ${activeCategory === cat.$id
-                                        ? 'bg-[var(--color-secondary)] text-[var(--color-primary)] border-[var(--color-secondary)] shadow-premium'
-                                        : 'bg-transparent text-[var(--color-secondary)] border-[var(--color-secondary)]/10 hover:border-[var(--color-secondary)]'
+                                    ? 'bg-[var(--color-secondary)] text-[var(--color-primary)] border-[var(--color-secondary)] shadow-premium'
+                                    : 'bg-transparent text-[var(--color-secondary)] border-[var(--color-secondary)]/10 hover:border-[var(--color-secondary)]'
                                     }`}
                             >
                                 {cat.nombre}
@@ -116,7 +123,7 @@ function MenuContent() {
                                 <ProductCard
                                     key={p.$id}
                                     product={p}
-                                    onAdd={() => { }}
+                                    onAdd={() => handleAddToCart(p)}
                                 />
                             ))}
                         </motion.div>
