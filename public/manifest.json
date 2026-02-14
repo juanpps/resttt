@@ -1,0 +1,16 @@
+{
+    "name": "JM Restaurant",
+    "short_name": "JM Resto",
+    "description": "Pide tu comida favorita y rastrea tu pedido en tiempo real.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#FF6B35",
+    "icons": [
+        {
+            "src": "/icon.svg",
+            "sizes": "any",
+            "type": "image/svg+xml"
+        }
+    ]
+}
